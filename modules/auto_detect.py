@@ -139,6 +139,9 @@ class AutoDetectModule:
                 if cooldown > 0 and not skip_cooldown:
                     self._last_triggered[session_id] = now
 
+                if cfg.get("sequential", False):
+                    return {"payload": list(cfg["entries"]), "rule": cfg}
+
                 if self.plugin.utils.should_use_forwarded_replies(
                     event, cfg["entries"], rule_cfg=cfg
                 ):

@@ -123,6 +123,8 @@ class CommandTriggeredModule:
             logger.info(f"关键词触发: {potential_cmd} (来自: {event.get_sender_id()})")
             if not cfg["entries"]:
                 return None
+            if cfg.get("sequential", False):
+                return {"payload": list(cfg["entries"]), "rule": cfg}
             if self.plugin.utils.should_use_forwarded_replies(
                 event, cfg["entries"], rule_cfg=cfg
             ):

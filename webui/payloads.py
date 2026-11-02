@@ -176,6 +176,7 @@ def _serialize_rule(plugin: Any, rule: dict[str, Any], kind: str) -> dict[str, A
         "enabled": bool(rule.get("enabled", True)),
         "mode": str(rule.get("mode", "whitelist") or "whitelist"),
         "groups": _clean_group_ids(rule.get("groups", [])),
+        "sequential": bool(rule.get("sequential", False)),
         "entries": [
             _build_entry_payload(entry) for entry in rule.get("entries", []) or []
         ],
@@ -309,6 +310,7 @@ def _sanitize_rule(rule: dict[str, Any], kind: str) -> dict[str, Any]:
         "enabled": bool(rule.get("enabled", True)),
         "mode": str(rule.get("mode", "whitelist") or "whitelist"),
         "groups": _clean_group_ids(rule.get("groups", [])),
+        "sequential": bool(rule.get("sequential", False)),
         "entries": [],
     }
     if sanitized["mode"] not in {"whitelist", "blacklist"}:
