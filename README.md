@@ -5,7 +5,8 @@
 > 本仓库由 [Yamabuki-Kirio](https://github.com/Yamabuki-Kirio) 基于
 > [Foolllll-J/astrbot_plugin_keywords_reply](https://github.com/Foolllll-J/astrbot_plugin_keywords_reply)
 > 进行二次开发，保留 AGPL-3.0 许可。当前版本新增多轮会话式录入和顺序回复；
-> 仅作为个人维护版本，不发布到 AstrBot 插件市场。
+> `/添加`、`/结束添加` 等指令流程根据个人实际使用习惯进行了调整。这是公开的个人
+> 维护版本，不代表上游官方版本，也不发布到 AstrBot 插件市场。
 
 <i>🌊 我听到了生生不息的回响</i>
 
