@@ -556,8 +556,8 @@ class PluginUtils:
         if event.is_admin():
             return True
         sender_id = str(event.get_sender_id())
-        whitelist = {str(uid) for uid in self.plugin.config.get("whitelist", [])}
-        return sender_id in whitelist
+        blacklist = {str(uid) for uid in self.plugin.config.get("blacklist", [])}
+        return sender_id not in blacklist
 
     def parse_message_to_entry(self, components):
         text_parts = []

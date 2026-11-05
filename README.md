@@ -146,7 +146,7 @@ Bot：添加成功：检测词“123”，共 2 条回复。
 
 | 配置项 | 默认值 | 说明 |
 | --- | --- | --- |
-| `whitelist` | `[]` | 允许管理规则的非管理员用户 ID |
+| `blacklist` | `[]` | 禁止管理规则的用户 ID（管理员不受限） |
 | `notify_permission_denied` | `true` | 无权限时是否提示 |
 | `quote_reply` | `false` | 回复时是否引用原消息 |
 | `qq_forward_all_replies` | `false` | 普通多回复规则是否合并转发 |
@@ -154,7 +154,7 @@ Bot：添加成功：检测词“123”，共 2 条回复。
 | `cooldown` | `0` | 检测词触发冷却秒数 |
 | `enable_text_template` | `true` | 是否启用文本变量替换 |
 
-管理指令默认仅限 AstrBot 管理员和 `whitelist` 用户使用。
+管理指令默认所有用户可用，仅 AstrBot 管理员和 `blacklist` 中的用户受限（blacklist 中的用户无法使用管理指令）。
 
 ## 安装
 

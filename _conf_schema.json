@@ -1,8 +1,8 @@
 {
-    "whitelist": {
-        "description": "白名单用户",
+    "blacklist": {
+        "description": "黑名单用户",
         "type": "list",
-        "hint": "只有白名单用户或管理员可以管理关键词/检测词。",
+        "hint": "黑名单中的用户无法管理关键词/检测词（管理员不受此限制）。其他所有用户均可使用。",
         "default": [],
         "items": {
             "type": "string"
@@ -11,19 +11,19 @@
     "notify_permission_denied": {
         "description": "无权限时发送提醒",
         "type": "bool",
-        "hint": "关闭后，无权限用户执行受限命令时将静默忽略，不再发送“权限不足”提示。",
+        "hint": "关闭后，无权限用户执行受限命令时将静默忽略，不再发送权限不足提示。",
         "default": true
     },
     "allow_group_member_list_keywords": {
         "description": "允许群成员查看关键词列表",
         "type": "bool",
-        "hint": "开启后，非管理员/非白名单用户可在群聊使用“查看关键词列表”，仅显示当前群已启用的关键词，不显示回复内容。",
+        "hint": "开启后，非管理员/非白名单用户可在群聊使用查看关键词列表，仅显示当前群已启用的关键词，不显示回复内容。",
         "default": false
     },
     "allow_group_member_list_detects": {
         "description": "允许群成员查看检测词列表",
         "type": "bool",
-        "hint": "开启后，非管理员/非白名单用户可在群聊使用“查看检测词列表”，仅显示当前群已启用的检测词，不显示回复内容。",
+        "hint": "开启后，非管理员/非白名单用户可在群聊使用查看检测词列表，仅显示当前群已启用的检测词，不显示回复内容。",
         "default": false
     },
     "quote_reply": {
@@ -41,7 +41,7 @@
     "recall_delay": {
         "description": "撤回延迟（秒）",
         "type": "string",
-        "hint": "定义几秒后撤回消息。格式：\"关键词延迟 检测词延迟\"。默认 \"0 0\" 表示不撤回。注意：超过 120 秒需要 bot 具有管理员权限。",
+        "hint": "定义几秒后撤回消息。格式：关键词延迟 检测词延迟。默认 0 0 表示不撤回。注意：超过 120 秒需要 bot 具有管理员权限。",
         "default": "0 0"
     },
     "case_sensitive": {

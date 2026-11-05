@@ -155,6 +155,47 @@ class KeywordsReplyPlugin(Star):
         event.stop_event()
         yield event.plain_result(f"已取消添加检测词“{session['keyword']}”。")
 
+    @filter.command("删除")
+    async def guided_delete_cmd(self, event: AstrMessageEvent):
+        """删除通过 /添加 创建的检测词。用法: /删除 <触发词>"""
+        if not self.utils.is_admin(event):
+            denied = self.utils.permission_denied_result(event)
+            if denied:
+                yield denied
+            return
+
+        parts = event.message_str.strip().split(None, 1)
+        if len(parts) < 2 or not parts[1].strip():
+            yield event.plain_result("用法: /删除 <触发词>")
+            return
+
+        keyword = parts[1].strip()
+
+        # 在 auto_detect 中查找匹配的非正则、sequential 规则（即 /添加 创建的）
+        indices = []
+        for i, cfg in enumerate(self.data["auto_detect"]):
+            if (
+                not cfg.get("regex", False)
+                and cfg.get("sequential", False)
+                and cfg.get("keyword", "").lower() == keyword.lower()
+            ):
+                indices.append(i)
+
+        if not indices:
+            yield event.plain_result(f"未找到通过 /添加 创建的检测词“{keyword}”。")
+            return
+
+        # 倒序删除，避免索引错位
+        indices.sort(reverse=True)
+        for idx in indices:
+            self.data["auto_detect"].pop(idx)
+
+        await self.utils.save_data_async()
+        # 清理可能不再被引用的媒体文件
+        self.utils.cleanup_unused_media()
+        event.stop_event()
+        yield event.plain_result(f"已删除检测词“{keyword}”。")
+
     @filter.command("添加关键词")
     async def add_keyword_cmd(self, event: AstrMessageEvent):
         """添加新关键词和回复。用法: /添加关键词 <关键词> <回复内容>"""
@@ -382,14 +423,20 @@ class KeywordsReplyPlugin(Star):
 
         session = self._get_capture_session(event)
         control_commands = {
-            "/结束添加", "结束添加", "/取消添加", "取消添加"
+            "/结束添加", "结束添加", "/取消添加", "取消添加",
+            "/删除", "删除",
         }
         is_start_command = (
             msg in {"/添加", "添加"}
             or msg.startswith("/添加 ")
             or msg.startswith("添加 ")
         )
-        if session and msg not in control_commands and not is_start_command:
+        is_delete_command = (
+            msg in {"/删除", "删除"}
+            or msg.startswith("/删除 ")
+            or msg.startswith("删除 ")
+        )
+        if session and msg not in control_commands and not is_start_command and not is_delete_command:
             entry, _ = self.utils.parse_message_to_entry(event.get_messages())
             if not self.utils.entry_has_payload(entry):
                 yield event.plain_result("这条消息没有可保存的内容，请发送文字、图片、语音或视频。")
